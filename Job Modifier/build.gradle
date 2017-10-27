@@ -1,0 +1,16 @@
+apply plugin: 'java-library'
+apply plugin: 'application'
+apply plugin: 'java'
+
+repositories {
+	jcenter()
+    mavenCentral()
+}
+
+dependencies {
+	compile 'com.squareup.okhttp3:okhttp:3.9.0'
+	compile group: 'com.squareup.okio', name: 'okio', version: '1.13.0'
+	compile 'com.google.code.gson:gson:2.8.2'
+}
+
+mainClassName = 'smartpath.JobHttpServer'
