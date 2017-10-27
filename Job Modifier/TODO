@@ -1,0 +1,4 @@
+Its an eclipse project, im using Girdle currently
+We have to rewrite it using Nomad Java SDK (https://github.com/hashicorp/nomad-java-sdk)
+Job Modifier is a java http server, it will take requests to launch jobs, modify running jobs and undeploy running jobs.
+Nomad tuts to understand this project : https://www.nomadproject.io/intro/getting-started/install.html
