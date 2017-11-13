@@ -26,7 +26,8 @@ sudo apt-get install -y docker-ce
 sudo service docker start
 
 # so user can run docker commands withouts sudo
-usermod -a -G docker thota
+sudo usermod -a -G docker thota
 
 # testing
+# This will fail, but will work on next login
 docker ps
