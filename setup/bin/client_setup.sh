@@ -1,3 +1,5 @@
+#!/bin/bash
+
 # From https://docs.docker.com/engine/installation/linux/docker-ce/ubuntu/#os-requirements
 
 # Uninstalling old docker versions if any
