@@ -4,7 +4,7 @@
 
 # Uninstalling old docker versions if any
 sudo apt-get remove docker docker-engine docker.io
-sudo apt-get install \
+sudo apt-get -y install \
     apt-transport-https \
     ca-certificates \
     curl \
@@ -21,4 +21,12 @@ sudo add-apt-repository \
 
 sudo apt-get update
 
-sudo apt-get install docker-ce
+sudo apt-get install -y docker-ce
+
+sudo service docker start
+
+# so user can run docker commands withouts sudo
+usermod -a -G docker thota
+
+# testing
+docker ps
