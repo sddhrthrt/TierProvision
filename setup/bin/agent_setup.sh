@@ -74,7 +74,7 @@ then
   sudo apt install -y unzip
   curl -fsSL https://releases.hashicorp.com/nomad/0.7.0/nomad_0.7.0_linux_amd64.zip > nomad.zip
   unzip -e nomad.zip
-  sudo cp nomad /usr/bin/
+  sudo mv nomad /usr/bin/
 fi
 
 # setup as server/client
