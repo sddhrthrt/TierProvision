@@ -37,7 +37,7 @@ job "sensorListener" {
 
       # Configuration is specific to each driver.
       config {
-        image = "hashicorp/web-frontend"
+        image = "sddhrthrt/sensorlistener:0.1"
       }
 
       # The service block tells Nomad how to register this service

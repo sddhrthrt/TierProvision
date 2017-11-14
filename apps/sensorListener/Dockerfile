@@ -8,5 +8,5 @@ RUN pip install -r requirements.txt
 ENV FLASK_APP server.py
 EXPOSE 5000
 
-ENTRYPOINT ["flask", "run", "-p 5000"]
+ENTRYPOINT ["flask", "run", "-h", "0.0.0.0", "-p", "5000"]
 
