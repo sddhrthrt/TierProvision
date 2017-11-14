@@ -14,3 +14,6 @@ class DumbAlgorithm():
     requests = session.query(TaskRequest).all()
     for i in requests:
       print(i)
+
+  def reprovision(self):
+    return
