@@ -7,7 +7,7 @@ job "sensorListener" {
     task "API" {
       driver = "docker"
       config {
-        image = "sddhrthrt/sensorlistener:0.1"
+        image = "sddhrthrt/sensorlistener:0.1.1"
       }
       service {
         port = "http"
