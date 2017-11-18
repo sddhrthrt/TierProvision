@@ -8,9 +8,6 @@ job "sensorListener" {
       driver = "docker"
       config {
         image = "sddhrthrt/sensorlistener:0.1"
-        port_map = {
-          http = 5000
-        }
       }
       service {
         port = "http"
@@ -28,7 +25,7 @@ job "sensorListener" {
         memory = 128 # MB
         network {
           mbits = 100
-          port "http" {}
+          port "HTTP" {}
           port "https" {
             static = 443
           }
