@@ -25,7 +25,7 @@ job "sensorListener" {
         memory = 128 # MB
         network {
           mbits = 100
-          port "HTTP" {}
+          port "http" {}
           port "https" {
             static = 443
           }
