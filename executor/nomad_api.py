@@ -14,7 +14,7 @@ class NomadSetup():
     return self.n.jobs.get_jobs()
 
   def register_job(self, job):
-    return self.n.jobs.register_job(job.name, job.get_json())
+    return self.n.jobs.register_job(job.get_json())
     
 
 class NomadJob():
