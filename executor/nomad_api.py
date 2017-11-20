@@ -8,10 +8,13 @@ class NomadSetup():
   def __init__(self, ip, port):
     self.ip = ip
     self.port = port
-    n = nomad.Nomad(host=self.ip, port=self.port)
+    self.n = nomad.Nomad(host=self.ip, port=self.port)
+
+  def get_jobs(self):
+    return self.n.jobs.get_jobs()
 
   def register_job(self, job):
-    n.register_job(job.name, job.getJson())
+    return self.n.register_job(job.name, job.get_json())
     
 
 class NomadJob():
@@ -22,7 +25,7 @@ class NomadJob():
     self.CPU = CPU
     self.memory = memory
 
-  def getJson(self):
+  def get_json(self):
     with open("sample_job.json", "r") as j:
       sample = json.loads(j.read())
       sample["Job"]["ID"] = self.name
