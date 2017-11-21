@@ -12,12 +12,12 @@ class NomadSetup():
     self.url = "http://{}:{}/v1".format(ip, port)
 
   def get_jobs(self):
-    res = requests.get("{}/jobs".format(self.url))
+    res = requests.get("{}/jobs/".format(self.url))
     return res.json()
 
   def register_job(self, job):
-    res = requests.post("{}/jobs".format(self.url),
-                        data=job.get_dict())
+    res = requests.post("{}/jobs/".format(self.url),
+                        json=job.get_dict())
     return res.json()
     
 
