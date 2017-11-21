@@ -1,4 +1,5 @@
 import json
+import requests
 
 import nomad
 
@@ -8,13 +9,16 @@ class NomadSetup():
   def __init__(self, ip, port):
     self.ip = ip
     self.port = port
-    self.n = nomad.Nomad(host=self.ip, port=self.port)
+    self.url = "http://{}:{}/v1".format(ip, port)
 
   def get_jobs(self):
-    return self.n.jobs.get_jobs()
+    res = requests.get("{}/jobs".format(self.url))
+    return json.loads(res)
 
   def register_job(self, job):
-    return self.n.jobs.register_job(job.get_json())
+    res = requests.post("{}/jobs".format(self.url),
+                        data=job.get_dict())
+    return res
     
 
 class NomadJob():
@@ -25,7 +29,7 @@ class NomadJob():
     self.CPU = CPU
     self.memory = memory
 
-  def get_json(self):
+  def get_dict(self):
     with open("sample_job.json", "r") as j:
       sample = json.loads(j.read())
       sample["Job"]["ID"] = self.name
@@ -39,4 +43,4 @@ class NomadJob():
       task["Resources"]["MemoryMB"] = self.memory
       tg["Tasks"][0] = task
       sample["Job"]["TaskGroups"][0] = tg
-      return json.dumps(sample)
+      return sample
