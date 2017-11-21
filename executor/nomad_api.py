@@ -13,12 +13,12 @@ class NomadSetup():
 
   def get_jobs(self):
     res = requests.get("{}/jobs".format(self.url))
-    return json.loads(res)
+    return res.json()
 
   def register_job(self, job):
     res = requests.post("{}/jobs".format(self.url),
                         data=job.get_dict())
-    return res
+    return res.json()
     
 
 class NomadJob():
