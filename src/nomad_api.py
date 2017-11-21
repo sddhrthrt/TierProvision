@@ -29,7 +29,8 @@ class NomadSetup():
     res = requests.delete("{}/job/{}".format(self.url, job.name),
                         json=job.get_dict())
     return res.json()
-    
+
+nomadServer = NomadSetup("localhost", 4646)    
 
 class NomadJob():
 

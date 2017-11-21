@@ -2,14 +2,11 @@ import time
 import threading
 
 import schedule
-
-
-def job():
-  print("I'm working")
+from algorithms import *
 
 
 def schedule_job():
-  schedule.every(10).seconds.do(job)
+  schedule.every(10).seconds.do(DumbAlgorithm().process_requests)
 
 
 cease_continuous_run = threading.Event()
@@ -28,5 +25,5 @@ def run_schedule_thread():
 
 
 if __name__=='__main__':
-  # schedule_job()
+  schedule_job()
   run_schedule_thread()

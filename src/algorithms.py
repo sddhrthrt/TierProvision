@@ -1,8 +1,8 @@
-from src.schema import Session, Task, Node, TaskRequest, TaskStats
-from executor.nomad_api import nomadServer, NomadJob
+from schema import Session, Task, Node, TaskRequest, TaskStats
+from nomad_api import nomadServer, NomadJob
 import logging
 
-logger = logging.getLogger(__name)
+logger = logging.getLogger(__name__)
 
 class Algorithm():
 
@@ -18,10 +18,10 @@ class DumbAlgorithm(Algorithm):
     for i in requests:
       logger.debug("Processing request: %s", i)
       task_id = i.task_id
-      task = session.query(Task).filter(id=task_id).first()
+      task = session.query(Task).filter(Task.id==task_id).first()
       # Query TaskStatus table and figure out if 
       # a task is being moved or not
-      status = session.query(TaskStatus).filter(task_id = task_id).first()
+      status = session.query(TaskStats).filter(TaskStats.task_id == task_id).first()
       j = NomadJob(task.name, task.image,
                              task.cpu, task.memory)
       if status:
