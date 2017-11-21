@@ -30,8 +30,9 @@ class Node(Base):
 
   id = Column(Integer, primary_key=True)
   name = Column(String(128))
-  resource = Column(String(128))
   rtt = Column(Integer)
+  cpu = Column(Integer)
+  memory = Column(Integer)
   stats = Column(String(1024))
   ip = Column(String(1024))
   
