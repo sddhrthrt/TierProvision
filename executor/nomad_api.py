@@ -21,26 +21,31 @@ class NomadSetup():
     return res.json()
 
   def update_job(self, job):
-    res = requests.post("{}/jobs/{}".format(self.url, job.name),
+    res = requests.post("{}/job/{}".format(self.url, job.name),
                         json=job.get_dict())
     return res.json()
 
-
-nomad_server = NomadSetup("localhost", 4646)
+  def delete_job(self, job):
+    res = requests.delete("{}/job/{}".format(self.url, job.name),
+                        json=job.get_dict())
+    return res.json()
+    
 
 class NomadJob():
 
-  def __init__(self, name, image, CPU, memory):
+  def __init__(self, name, image, CPU, memory, dc):
     self.name = name
     self.image = image
     self.CPU = CPU
     self.memory = memory
+    self.dc = dc
 
   def get_dict(self):
     with open("sample_job.json", "r") as j:
       sample = json.loads(j.read())
       sample["Job"]["ID"] = self.name
       sample["Job"]["Name"] = self.name
+      sample["Job"]["Datacenters"] = [self.dc,]
       tg = sample["Job"]["TaskGroups"][0]
       tg["Name"] = "taskGroup0"
       task = tg["Tasks"][0]
