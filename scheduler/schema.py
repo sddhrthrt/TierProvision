@@ -15,8 +15,11 @@ class Task(Base):
 
   id = Column(Integer, primary_key=True)
   name = Column(String(128))
-  rtt = Column(Integer)
-  definition = Column(String(1024))
+  image = Column(String(1024))
+  latency_req = Column(Integer)
+  cpu = Column(Integer)
+  memory = Column(Integer)
+  expected_load = Column(String(1024))
 
   def __repr__(self):
     return "<Task(id='%s', name='%s)>" % (
@@ -30,6 +33,7 @@ class Node(Base):
   resource = Column(String(128))
   rtt = Column(Integer)
   stats = Column(String(1024))
+  ip = Column(String(1024))
   
   def __repr__(self):
     return "<Node(id='%s', name='%s')>" % (
@@ -40,9 +44,6 @@ class TaskRequest(Base):
 
   id = Column(Integer, primary_key=True)
   task_id = Column(Integer, ForeignKey('task.id'))
-  resource = Column(String(128))
-  rtt = Column(Integer)
-  stats = Column(String(1024))
   timestamp = Column(DateTime, default=datetime.datetime.utcnow)
   
   def __repr__(self):
@@ -54,6 +55,8 @@ class TaskStats(Base):
 
   id = Column(Integer, primary_key=True)
   task_id = Column(Integer, ForeignKey('task.id'))
+  cpu = Column(Integer)
+  memory = Column(Integer)
   provision_time = Column(DateTime, default=datetime.datetime.utcnow)
   node_id = Column(Integer, ForeignKey('node.id'))
   avg_rtt = Column(Integer)
