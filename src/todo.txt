@@ -1,0 +1,41 @@
+measure performance:
+  - rtt of the node
+  - tat of the request (inside app)
+  - requested rtt = rtt + tat + rtt
+  - 
+
+20, 120, 200 - 600ms
+
+20 
+a: tat 85 - 125
+
+120
+a: tat 40 - 160
+
+200 
+a: tat 25 - 225 - CPU, MEM, NETIO
+
+
+1: heartbeat:
+  - for each task in taskstatus:
+      check heartbeat
+      if missing:
+        create taskrequest.
+1.5: compare rtt vs achieved rtt
+  - for task in taskstatus:
+      if overperforming:
+        reprovision(taskstatus, upwards)
+2: power:
+  - power_consumed & cpu & req
+3: cpu, memory, disk and bandwidth contention:
+  - try reprovisining
+  - reprovisioning should take care. 
+
+reprovisioning:
+1: migrate lowest tat, try if they'll still perform well. 
+2: if lower nodes free: migrate lightest/fastest to lower (guess the contention, power)
+3: if node too "busy": migrate upwards
+
+"busy": power, resource contention
+
+taskstatus: {node: tat, node: rtt}

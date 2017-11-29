@@ -15,18 +15,13 @@ target_memory_size = 0
 big_string = None
 
 logs = {
-    "requests": {
-        "request_cpu": 0,
-        "request_memory": 0
+    "rtt_avg": {
+      "api_memory": 0,
+      "api_cpu": 0
       },
-    "uplink": {
-        "avg": 0
-      },
-    "downlink": {
-        "avg": 0
-      },
-    "power": {
-        "rem": 100
+    "request_count": {
+      "api_memory": 0,
+      "api_cpu": 0
       }
   }
 
@@ -58,9 +53,19 @@ memory_thread = MemoryThread()
 memory_thread.start()
 
 
+def update_logs(api, rtt):
+  request_count = logs["request_count"][api]
+  rtt_avg = logs["rtt_avg"][api]
+  new_rtt_avg = (rtt_avg*request_count + rtt)/(request_count+1)
+  request_count += 1
+  logs["request_count"][api] = request_count
+  logs["rtt_avg"][api] = new_rtt_avg
+
+
 @app.route("/ping")
 def ping():
   return jsonify({"ping": "pong"})
+
 
 @app.route("/upload", methods=["POST", ])
 def upload_sensor_data():
@@ -71,15 +76,18 @@ def upload_sensor_data():
       f.write(data['contents'])
     return jsonify({"filename": data['filename']})
 
+
 @app.route("/busy/cpu", methods=["POST", ])
 def keep_cpu_busy():
+  tick = int(round(time.time()*1000))
   global cpu_busy_end
   global logs
   if request.method == "POST":
-    logs["requests"]["cpu"] += 1
     data = request.get_json()
     t = data["time"]
     cpu_busy_end = int(time.time())+t
+    tock = int(round(time.time()*1000))
+    update_logs("api_cpu", tock-tick)
     return jsonify({"cpu_busy_until": cpu_busy_end})
 
 
@@ -89,7 +97,7 @@ def keep_memory_busy():
   global target_memory_size
   global logs
   if request.method == "POST":
-    logs["requests"]["memory"] += 1
+    logs["request_count"]["api_memory"] += 1
     data = request.get_json()
     t = data["time"]
     m = data["memory"]
@@ -97,6 +105,7 @@ def keep_memory_busy():
     target_memory_size = m
     return jsonify({"memory_busy_until": memory_busy_end,
                     "target_memory_size": target_memory_size})
+
 
 @app.route("/logs", methods=["GET", ])
 def get_logs():

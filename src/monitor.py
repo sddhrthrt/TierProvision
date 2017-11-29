@@ -23,3 +23,6 @@ class DumbMonitor(Monitor):
       ip.stats = stats[i.id]
       session.add(i)
       session.save()
+    
+    apps = session.query(Task).all()
+     

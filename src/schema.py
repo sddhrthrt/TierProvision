@@ -19,6 +19,9 @@ class Task(Base):
   latency_req = Column(Integer)
   cpu = Column(Integer)
   memory = Column(Integer)
+  storage = Column(Integer)
+  uplink = Column(Integer)
+  downlink = Column(Integer)
   expected_load = Column(String(1024))
 
   def __repr__(self):
@@ -33,7 +36,10 @@ class Node(Base):
   rtt = Column(Integer)
   cpu = Column(Integer)
   memory = Column(Integer)
+  storage = Column(Integer)
   stats = Column(String(1024))
+  uplink = Column(Integer)
+  downlink = Column(Integer)
   ip = Column(String(1024))
   
   def __repr__(self):
@@ -63,6 +69,8 @@ class TaskStats(Base):
   avg_rtt = Column(Integer)
   avg_resource = Column(String(128))
   avg_load = Column(Integer)
+  avg_uplink = Column(Integer)
+  avg_downlink = Column(Integer)
   
   def __repr__(self):
     return "<TaskStats(id='%s', task_id='%s')>" % (
