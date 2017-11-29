@@ -3,10 +3,12 @@ import threading
 
 import schedule
 from algorithms import *
+from monitor import *
 
 
 def schedule_job():
   schedule.every(10).seconds.do(DumbAlgorithm().process_requests)
+  schedule.every(10).seconds.do(DumbMonitor().monitor)
 
 
 cease_continuous_run = threading.Event()
