@@ -17,11 +17,13 @@ big_string = None
 logs = {
     "rtt_avg": {
       "api_memory": 0,
-      "api_cpu": 0
+      "api_cpu": 0,
+      "api_network": 0
       },
     "request_count": {
       "api_memory": 0,
-      "api_cpu": 0
+      "api_cpu": 0,
+      "api_network": 0
       }
   }
 
@@ -54,6 +56,7 @@ memory_thread.start()
 
 
 def update_logs(api, rtt):
+  global logs
   request_count = logs["request_count"][api]
   rtt_avg = logs["rtt_avg"][api]
   new_rtt_avg = (rtt_avg*request_count + rtt)/(request_count+1)
@@ -81,7 +84,6 @@ def upload_sensor_data():
 def keep_cpu_busy():
   tick = int(round(time.time()*1000))
   global cpu_busy_end
-  global logs
   if request.method == "POST":
     data = request.get_json()
     t = data["time"]
@@ -93,19 +95,33 @@ def keep_cpu_busy():
 
 @app.route("/busy/memory", methods=["POST", ])
 def keep_memory_busy():
+  tick = int(round(time.time()*1000))
   global memory_busy_end
   global target_memory_size
-  global logs
   if request.method == "POST":
-    logs["request_count"]["api_memory"] += 1
     data = request.get_json()
     t = data["time"]
     m = data["memory"]
     memory_busy_end = int(time.time())+t
     target_memory_size = m
+    tock = int(round(time.time()*1000))
+    update_logs("api_cpu", tock-tick)
     return jsonify({"memory_busy_until": memory_busy_end,
                     "target_memory_size": target_memory_size})
 
+
+@app.route("/load/network", methods=["POST", ])
+def load_network():
+  tick = int(round(time.time()*1000))
+  if request.method == "POST":
+    n = data["n"]
+    for i in range(int(n)):
+      f = request.get("http://apache.forsale.plus/spark/spark-2.2.0/spark-2.2.0-bin-hadoop2.7.tgz")
+      with open("randfile", "wb") as fo:
+        fo.write(f.content)
+    tock = int(round(time.time()*1000))
+    update_logs("api_network", tock-tick)
+    return jsonify({"n": n})
 
 @app.route("/logs", methods=["GET", ])
 def get_logs():

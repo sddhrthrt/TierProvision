@@ -28,6 +28,7 @@ class DumbAlgorithm(Algorithm):
         #TODO: COMPLEX LOGIC!!!! 
         logger.debug("Updating job: %s", j)
         nomadServer.update_job(j)
+
       else:
         logger.debug("Creating job: %s", j)
         nomadServer.register_job(j)
