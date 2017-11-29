@@ -25,4 +25,12 @@ class DumbMonitor(Monitor):
       session.save()
     
     apps = session.query(Task).all()
-     
+    
+class NomadMonitor(Monitor):
+  @override
+  def monitor(self):
+    session = Session()
+    nomad = NomadSetup("localhost", 4646)
+    ts = session.query(TaskStatus).all()
+    for task in ts:
+

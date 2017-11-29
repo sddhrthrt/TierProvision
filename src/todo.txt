@@ -39,3 +39,17 @@ reprovisioning:
 "busy": power, resource contention
 
 taskstatus: {node: tat, node: rtt}
+
+
+----
+
+Tasks:
+
+- measure TAT
+- measure RTT
+- store lightness: create a table with active_task | task_history 
+exp 1:
+- find an app
+- vary RTT: add a dummy wait function? 
+- vary docker capacity
+- test the app

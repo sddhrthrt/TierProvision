@@ -3,6 +3,7 @@ import requests
 
 import nomad
 
+LISTENER_URL = "http://swift-015:12222"
 
 class NomadSetup():
   
@@ -13,22 +14,50 @@ class NomadSetup():
 
   def get_jobs(self):
     res = requests.get("{}/jobs".format(self.url))
-    return res.json()
+    try:
+      return res.json()
+    except:
+      return res
 
   def register_job(self, job):
     res = requests.post("{}/jobs".format(self.url),
                         json=job.get_dict())
-    return res.json()
+    try:
+      return res.json()
+    except:
+      return res
 
   def update_job(self, job):
     res = requests.post("{}/job/{}".format(self.url, job.name),
                         json=job.get_dict())
-    return res.json()
+    try:
+      return res.json()
+    except:
+      return res
 
   def delete_job(self, job):
     res = requests.delete("{}/job/{}".format(self.url, job.name),
                         json=job.get_dict())
-    return res.json()
+    try:
+      return res.json()
+    except:
+      return res
+
+  def get(self, requestURL):
+    res = requests.get("{}/{}".format(self.url, requestURL))
+    try:
+      return res.json()
+    except:
+      return res
+
+  def get_allocation(self, job):
+    res = requests.get("{}/job/{}/allocations".format(self.url, job.name))
+    allocation_id = res.json()[0]['ID']
+    res = requests.get("{}/allocation/{}".format(self.url, allocation_id))
+    try:
+      return res.json()
+    except:
+      return res
 
 nomadServer = NomadSetup("localhost", 4646)    
 
@@ -54,6 +83,8 @@ class NomadJob():
       task["Config"]["image"] = self.image
       task["Resources"]["CPU"] = self.CPU
       task["Resources"]["MemoryMB"] = self.memory
+      task["Env"]["APP_ID"] = self.name
+      task["Env"]["LISTENER_URL"] = LISTENER_URL
       tg["Tasks"][0] = task
       sample["Job"]["TaskGroups"][0] = tg
       return sample

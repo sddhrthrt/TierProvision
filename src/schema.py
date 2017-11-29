@@ -76,5 +76,15 @@ class TaskStats(Base):
     return "<TaskStats(id='%s', task_id='%s')>" % (
         self.id, self.task_id)
 
+class TaskHistory(Base):
+  __tablename__ = 'task_history'
+
+  id = Column(Integer, primary_key=True)
+  task_id = Column(Integer, ForeignKey('task.id'))
+  requests = Column(Integer)
+  avg_tat = Column(Integer)
+  time = Column(DateTime)
+  etc = Column(String(1024))
+
 if __name__ == '__main__':
   Base.metadata.create_all(engine)

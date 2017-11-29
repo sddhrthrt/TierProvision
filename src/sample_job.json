@@ -21,14 +21,17 @@
                     "CPU": 500,
                     "MemoryMB": 256,
                     "Networks": [{
-                        "MBits": 1000,
+                        "MBits": 1,
                         "DynamicPorts": [{
                             "Label": "http",
                             "Value": 0
                         }]
                     }]
                 },
-                "Leader": false
+                "Leader": false,
+                "Env": {
+                  "APP_ID": "example"
+                }
             }],
             "RestartPolicy": {
                 "Interval": 300000000000,
