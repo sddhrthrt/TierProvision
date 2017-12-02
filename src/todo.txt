@@ -41,8 +41,6 @@ reprovisioning:
 taskstatus: {node: tat, node: rtt}
 
 
-----
-
 Tasks:
 
 - measure TAT
